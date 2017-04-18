@@ -1,0 +1,3 @@
+# This file contains minimum svn:ignore entries for target svn repository
+.git
+.gitignore
