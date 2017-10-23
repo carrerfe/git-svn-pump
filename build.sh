@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-. src/common.sh
+. src/scripts/common.sh
 
 ORIGINAL_DIR=${PWD}
 
 BASE_DIR=${PWD}
-SRC_DIR=${BASE_DIR}/src
+SRC_DIR=${BASE_DIR}/src/scripts
 TARGET_DIR=${BASE_DIR}/target
 
 function print_config() {
@@ -83,7 +83,7 @@ function concat_scripts() {
     # appending individual files
     for INPUTFILE in ${INPUTFILES}
     do
-        echo "##### ${INPUTFILE} #####"                                  >> "${OUTFILE}" \
+        echo "##### module ${INPUTFILE} #####"                                  >> "${OUTFILE}" \
             && cat "${SRC_DIR}/${INPUTFILE}"      | grep -v "${SHEBANG}" >> "${OUTFILE}"
     done
 
