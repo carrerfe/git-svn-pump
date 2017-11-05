@@ -1,0 +1,10 @@
+version: "3"
+services:
+  build-env:
+    image: build-env
+    build: ../build-env
+    volumes:
+    - source_code:/build-env/
+    command: bash /build-env/build.sh
+volumes:
+  source_code: {}
