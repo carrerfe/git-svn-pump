@@ -61,6 +61,20 @@ function copy_resources() {
     done_activity
 }
 
+function set_executable() {
+    local FILE=$1
+    begin_activity "Setting as executable: ${FILE}"
+
+    chmod +x "${FILE}"
+
+    if ! [[ -x "${FILE}" ]]; then
+        failed_activity
+        return 1
+    fi
+
+    done_activity
+}
+
 function concat_scripts() {
     local OUTFILE=$1
     shift
@@ -86,6 +100,8 @@ function concat_scripts() {
         echo "##### module ${INPUTFILE} #####"                                  >> "${OUTFILE}" \
             && cat "${SRC_DIR}/${INPUTFILE}"      | grep -v "${SHEBANG}" >> "${OUTFILE}"
     done
+
+    set_executable "${OUTFILE}"
 
     done_activity
 }
