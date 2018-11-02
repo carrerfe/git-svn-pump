@@ -106,6 +106,21 @@ function concat_scripts() {
     done_activity
 }
 
+function create_target_archive() {
+    local OUTFILE=$1
+    local ROOT_FOLDER_IN_ARCHIVE=$2
+    local ARCHIVE_SOURCE=$3
+
+    begin_activity "Creating archive ${OUTFILE}"
+
+    cd "${ARCHIVE_SOURCE}" \
+    && tar -cvzf "${OUTFILE}" --transform "s/^\./${ROOT_FOLDER_IN_ARCHIVE}/" .
+
+    cd "${BASE_DIR}"
+
+    done_activity
+}
+
 function build() {
     begin_activity "Building"
 
@@ -121,6 +136,8 @@ function build() {
         "common.sh" \
         "pump.sh" \
         "main-test.sh"
+
+    create_target_archive "${TARGET_DIR}/git-svn-pump.tgz" "git-svn-pump-instance" "${TARGET_DIR}/dist"
 
     done_activity
 }
