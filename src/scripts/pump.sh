@@ -356,7 +356,7 @@ function process_unpumped_commit() {
     COMMIT_MESSAGE_FILE="${PUMP_TEMP_DIR}/svn_commit_message.${COMMIT_ID}"
     git log -n 1 --pretty='format:%B' ${COMMIT_ID} > ${COMMIT_MESSAGE_FILE}
     if [ ! $? -eq 0 ]; then
-        echo Could save git commit message to file!
+        echo Could not save git commit message to file!
         return 1
     fi
 
