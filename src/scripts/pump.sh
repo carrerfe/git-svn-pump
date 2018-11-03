@@ -290,7 +290,14 @@ function ensure_git_tag_for_svn_revision() {
 
     echo '*' SVN Revision: ${SVN_REV}
 
-    IN_SYNC_WITH_GIT=$(git status | grep 'nothing to commit, working tree clean' | wc -l)
+    IN_SYNC_WITH_GIT=0
+    if [ -z "$(git status --porcelain)" ]; then
+      # Working directory clean
+      IN_SYNC_WITH_GIT=1
+    else
+      # Uncommitted changes
+      IN_SYNC_WITH_GIT=0
+    fi
     if [ ! $? -eq 0 ]; then
         echo "Could not check whether the working folder is actually in-sync with the local git repo!"
         return 1
