@@ -548,8 +548,7 @@ function main() {
     cd ${GIT_BARE_REPO}
 
     if svn_connection_test; then
-        #sync 'normal-mode'
-        sync 'test-mode'
+        sync
     fi
 
     cd ${OLD_DIR}
