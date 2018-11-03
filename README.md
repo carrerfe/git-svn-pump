@@ -28,5 +28,5 @@ The other git branches can be rebased and rewritten freely. They can be freely m
 Prerequisites
 -------------
 - Bash
-- git client
+- git v1.7.2 or later
 - svn client
