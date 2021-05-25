@@ -56,6 +56,14 @@ function git_command_unmuted() {
     git $@
 }
 
+function svn_branch_resolve() {
+    if [[ "$1" == "trunk" ]]; then
+      echo "${SVN_REPO}/trunk"
+    else
+      echo "${SVN_REPO}/branches/$1"
+    fi
+}
+
 function svn_connection_test() {
     echo Testing SVN connection...
     SVN_COMMAND_FORCE_LOG=1
@@ -92,8 +100,8 @@ function svn_connection_test() {
 }
 
 function svn_check_exists() {
-    BRANCH=$1
-    svn_command info ${SVN_REPO}/branches/${BRANCH}
+    local BRANCH=$1
+    svn_command info $(svn_branch_resolve ${BRANCH})
 }
 
 function svn_create_branch() {
@@ -132,7 +140,7 @@ function svn_ensure_in_workdir_for_branch() {
 
     echo Checking out branch ${BRANCH}...
     cd ${PUMP_SVN_DIR}
-    if ! svn_command co ${SVN_REPO}/branches/${BRANCH}; then
+    if ! svn_command co $(svn_branch_resolve ${BRANCH}); then
         echo SVN checkout failed!
         return 1;
     fi
@@ -461,7 +469,7 @@ function sync() {
     echo ${S_ALL_BRANCHES}
 
     if [ ${TEST_MODE} -eq 1 ]; then
-        echo Test mode: overriding branches...
+        echo 'Test mode: overriding branches...'
         S_ALL_BRANCHES=${TEST_BRANCHES}
 
         echo 'Branches:'
