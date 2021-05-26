@@ -500,7 +500,7 @@ function sync() {
 
 function ensure_git_bare_repo() {
     GIT_BARE_REPO_CLONE_SUCCESS_MARKER=${PUMP_STATE_DIR}/gitbarerepo_clone
-    if [ -e GIT_BARE_REPO_CLONE_SUCCESS_MARKER ]; then
+    if [ -e "${GIT_BARE_REPO_CLONE_SUCCESS_MARKER}" ]; then
         echo '*' bare git repo already cloned, skipping
         return 0
     fi
@@ -525,7 +525,7 @@ function load_config() {
 
         if [ "${SVN_PROXY_HOST}:${SVN_PROXY_PORT}" == ":" ]; then
             echo "SVN proxy: <none>"
-            SVN_OPTIONS=( '--config-option' "servers:global:http-proxy-host=${SVN_PROXY_HOST}" '--config-option' "servers:global:http-proxy-port=${SVN_PROXY_PORT}")
+            SVN_OPTIONS=( )
         else
             echo "SVN proxy: ${SVN_PROXY_HOST}:${SVN_PROXY_PORT}"
             SVN_OPTIONS=( '--config-option' "servers:global:http-proxy-host=${SVN_PROXY_HOST}" '--config-option' "servers:global:http-proxy-port=${SVN_PROXY_PORT}")
