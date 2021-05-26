@@ -522,10 +522,11 @@ function load_config() {
         . "${PUMP_CONFIG_FILE}"
         echo "GIT_BARE_REPO: ${GIT_BARE_REPO}"
         echo "SVN_REPO: ${SVN_REPO}"
+        echo "SVN_USER: ${SVN_USER}"
 
         if [ "${SVN_PROXY_HOST}:${SVN_PROXY_PORT}" == ":" ]; then
             echo "SVN proxy: <none>"
-            SVN_OPTIONS=( )
+            SVN_OPTIONS=( '--username' "${SVN_USER}" '--password' "${SVN_PASSWORD}" )
         else
             echo "SVN proxy: ${SVN_PROXY_HOST}:${SVN_PROXY_PORT}"
             SVN_OPTIONS=( '--config-option' "servers:global:http-proxy-host=${SVN_PROXY_HOST}" '--config-option' "servers:global:http-proxy-port=${SVN_PROXY_PORT}")
