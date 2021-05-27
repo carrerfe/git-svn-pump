@@ -189,7 +189,7 @@ function ensure_svnignore_setup() {
     fi
 
     echo Excluding .svn dirs through .gitignore...
-    touch .gitignore && cat .gitignore ${BASIC_GITIGNORE_FILE} | grep -v '^#' | grep -v -e '^\s*$' | sort -u > .gitignore.new && mv .gitignore.new .gitignore
+    touch .gitignore && (echo | cat .gitignore - ${BASIC_GITIGNORE_FILE}) | grep -v '^#' | grep -v -e '^\s*$' | sort -u > .gitignore.new && mv .gitignore.new .gitignore
     if [ ! $? -eq 0 ]; then
         echo An error has occurred while manipulating .gitignore file
         return 1
@@ -400,6 +400,10 @@ function process_unpumped_commit() {
     echo Processing unpumped commit ${COMMIT_ID}... [DONE]
 }
 
+function restore_gitignore() {
+    git_command checkout HEAD -- .gitignore
+}
+
 function process_branch() {
     local BRANCH=$1
 
@@ -419,6 +423,10 @@ function process_branch() {
 
     if ! ensure_initial_svn_commit_for_git_branch ${BRANCH}; then
         return 1;
+    fi
+
+    if ! restore_gitignore; then
+      return 1;
     fi
 
     if ! ensure_git_tag_for_svn_revision; then
