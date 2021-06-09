@@ -15,6 +15,7 @@ SVN_MESSAGE_PREFIX='git-svn-pump:'
 SVN_MESSAGE_GIT_INITIAL_COMMIT='initial_commit'
 SVN_MESSAGE_GIT_COMMIT_PREFIX='git_commit_'
 
+PUMPED_BRANCH_PATTERN0='^\s*trunk$'
 PUMPED_BRANCH_PATTERN1='^\s*v[0-9]\.[0-9]\.[0-9]_candidate$'
 PUMPED_BRANCH_PATTERN2='^\s*svn_'
 EXCLUDED_BRANCHES_PATTERN1='^\s*v0\.0\.0_candidate'
@@ -468,10 +469,11 @@ function sync() {
     git fetch --all
 
     echo 'Checking for new branches...'
+    local BRANCHES_0=$(git branch|egrep ${PUMPED_BRANCH_PATTERN0})
     local BRANCHES_1=$(git branch|egrep ${PUMPED_BRANCH_PATTERN1}|egrep -v ${EXCLUDED_BRANCHES_PATTERN1})
     local BRANCHES_2=$(git branch|egrep ${PUMPED_BRANCH_PATTERN2})
 
-    local S_ALL_BRANCHES="${BRANCHES_1} ${BRANCHES_2}"
+    local S_ALL_BRANCHES="${BRANCHES_0} ${BRANCHES_1} ${BRANCHES_2}"
 
     echo 'Branches:'
     echo ${S_ALL_BRANCHES}
