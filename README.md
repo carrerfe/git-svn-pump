@@ -2,12 +2,6 @@
 
 Automatic GIT to SVN synchronization tool
 
-Disclaimer
-----------
-
-This project is derived from a tool I created for my convenience in a commercial project. The code contains several adaptations that are still untested.
-Contributions are welcome :-)
-
 Features
 --------
 - Commit-by-commit push from Git to Svn
